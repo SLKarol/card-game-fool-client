@@ -1,0 +1,9 @@
+.deck {
+  display: flex;
+  position: relative;
+}
+
+.card {
+  transform: rotate(-90deg);
+  left: 43px;
+}

@@ -1,0 +1,18 @@
+.card {
+  cursor: pointer;
+  margin-left: -60px;
+  transition: top .2s ease-in;
+  top: 0;
+  position: relative;
+  background: transparent;
+  padding: 0;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+}
+
+.card:hover {
+  box-shadow: 0 0 25px var(--bs-dark);
+  top: -10px;
+  z-index: 100;
+}

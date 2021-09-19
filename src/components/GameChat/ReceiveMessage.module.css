@@ -1,0 +1,18 @@
+.receivedMsg {
+  display: inline-block;
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  border-radius: 3px;
+  width: 92%;
+  background: #ebebeb none repeat scroll 0 0;
+  margin: 13px 0 13px;
+}
+
+.receivedMsgContent {
+  color: #646464;
+  font-size: 14px;
+}
+
+.receivedWithdMsg {
+  width: 87%;
+}

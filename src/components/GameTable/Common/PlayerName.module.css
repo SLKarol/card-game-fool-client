@@ -1,0 +1,14 @@
+.name {
+  font-weight: 700;
+  vertical-align: baseline;
+}
+
+.player {
+  color: var(--bs-light);
+  text-align: left;
+}
+
+.opponent {
+  color: var(--bs-white);
+  text-align: right;
+}

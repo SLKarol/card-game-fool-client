@@ -1,0 +1,10 @@
+.dateTime {
+  color: #747474;
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+.system {
+  color: var(--bs-warning);
+}

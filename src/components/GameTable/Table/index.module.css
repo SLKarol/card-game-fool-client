@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0;
+  flex-wrap: wrap;
+  min-height: 378px;
+}
+
+.gameCards {
+  position: relative;
+  width: 135px;
+  height: 165px;
+  margin: 12px;
+}

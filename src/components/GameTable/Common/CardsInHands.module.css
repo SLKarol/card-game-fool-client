@@ -1,0 +1,9 @@
+.cards {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0 0 30%;
+  flex-wrap: wrap;
+  margin: auto;
+  min-height: 183px;
+}

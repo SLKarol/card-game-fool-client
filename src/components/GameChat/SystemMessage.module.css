@@ -1,0 +1,12 @@
+.systemMsg {
+  display: inline-block;
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  width: 92%;
+  color: var(--bs-warning);
+  margin-bottom: 10px;
+}
+
+.systemContent {
+  font-weight: 500;
+}

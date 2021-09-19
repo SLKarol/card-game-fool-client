@@ -1,0 +1,5 @@
+.component {
+  display: grid;
+  row-gap: 10px;
+  grid-template-rows: auto 1fr auto;
+}

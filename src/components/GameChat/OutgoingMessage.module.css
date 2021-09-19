@@ -1,0 +1,15 @@
+.outgoingMsg {
+  overflow: hidden;
+  margin: 13px 0 13px;
+}
+
+.sentMsg {
+  float: right;
+  width: 76%;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+  color: #0f5132;
+  padding-top: 3px;
+  padding-left: 10px;
+  border-radius: 3px;
+}

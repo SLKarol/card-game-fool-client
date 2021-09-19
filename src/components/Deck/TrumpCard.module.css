@@ -1,0 +1,9 @@
+.card {
+  position: absolute;
+  transform: rotate(-90deg);
+  left: 43px;
+}
+
+.cards0 {
+  visibility: hidden;
+}

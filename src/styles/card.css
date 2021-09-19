@@ -1,0 +1,205 @@
+.gameCard {
+  width: 127px;
+  height: 183px;
+  border-radius: 10px;
+  border: 1px solid var(--bs-dark);
+}
+
+.gameCard__table {
+  position: unset;
+  position: absolute;
+  width: 97px;
+  height: 153px;
+}
+
+.gameCard__table--defence {
+  box-shadow: 1px 1px 2px var(--bs-success);
+  transform: rotate(25deg);
+  top: 5px;
+}
+
+
+.gameCard__back {
+  background: url(../img/cardBack.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__1 {
+  background: url(../img/cards/1.png) 1% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__2 {
+  background: url(../img/cards/2.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__3 {
+  background: url(../img/cards/3.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__4 {
+  background: url(../img/cards/4.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__5 {
+  background: url(../img/cards/5.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__6 {
+  background: url(../img/cards/6.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__7 {
+  background: url(../img/cards/7.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__8 {
+  background: url(../img/cards/8.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__9 {
+  background: url(../img/cards/9.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__10 {
+  background: url(../img/cards/10.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__11 {
+  background: url(../img/cards/11.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__12 {
+  background: url(../img/cards/12.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__13 {
+  background: url(../img/cards/13.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__14 {
+  background: url(../img/cards/14.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__15 {
+  background: url(../img/cards/15.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__16 {
+  background: url(../img/cards/16.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__17 {
+  background: url(../img/cards/17.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__18 {
+  background: url(../img/cards/18.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__19 {
+  background: url(../img/cards/19.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__20 {
+  background: url(../img/cards/20.png) 50% no-repeat;
+  background-size: cover;
+}
+
+
+.gameCard__21 {
+  background: url(../img/cards/21.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__22 {
+  background: url(../img/cards/22.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__23 {
+  background: url(../img/cards/23.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__24 {
+  background: url(../img/cards/24.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__25 {
+  background: url(../img/cards/25.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__26 {
+  background: url(../img/cards/26.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__27 {
+  background: url(../img/cards/27.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__28 {
+  background: url(../img/cards/28.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__29 {
+  background: url(../img/cards/29.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__30 {
+  background: url(../img/cards/30.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__31 {
+  background: url(../img/cards/31.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__32 {
+  background: url(../img/cards/32.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__33 {
+  background: url(../img/cards/33.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__34 {
+  background: url(../img/cards/34.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__35 {
+  background: url(../img/cards/35.png) 50% no-repeat;
+  background-size: cover;
+}
+
+.gameCard__36 {
+  background: url(../img/cards/36.png) 50% no-repeat;
+}

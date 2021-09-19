@@ -1,0 +1,85 @@
+.container {
+  background-image: url('../../img/cards.png');
+  background-attachment: fixed;
+  background-position: top center;
+}
+
+.gameTable {
+  background: rgb(0 100 0 / 97%);
+  padding: 1rem;
+  display: grid;
+  grid-gap: 10px;
+}
+
+.header {
+  grid-area: header;
+  justify-self: center;
+}
+
+.desk {
+  grid-area: desk;
+  align-self: center;
+}
+
+.table {
+  grid-area: table;
+}
+
+.chat {
+  grid-area: chat;
+  margin: auto;
+  align-self: end;
+}
+
+/* Экстра маленькие устройства (телефоны, 600px и ниже) */
+@media only screen and (max-width: 600px) {
+  .gameTable {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "desk"
+      "table"
+      "chat";
+  }
+}
+
+/* Маленькие устройства (портретные планшеты и большие телефоны, 600px и выше) */
+@media only screen and (min-width: 600px) {
+  .gameTable {
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+      "header header"
+      "desk chat"
+      "table table";
+  }
+}
+
+/* Средние устройства (альбомные планшеты, 768px и выше) */
+@media only screen and (min-width: 768px) {
+  .gameTable {
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas:
+      "header header header"
+      "desk table chat";
+  }
+}
+
+/* Большие устройства (ноутбуки / десктопы, 992px и выше) */
+@media only screen and (min-width: 992px) {
+  .gameTable {
+    grid-template-columns: 254px 1fr 256px;
+    grid-template-areas:
+      "header header header"
+      "desk table chat";
+  }
+}
+
+/* Очень большие устройства (большие ноутбуки и десктопы, 1200px и выше) */
+@media only screen and (min-width: 1200px) {
+  .gameTable {
+    grid-template-columns: 254px 1fr 256px;
+    grid-template-areas:
+      "header header header"
+      "desk table chat";
+  }
+}

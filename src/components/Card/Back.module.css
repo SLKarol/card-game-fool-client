@@ -1,0 +1,6 @@
+.back {
+  width: 127px;
+  height: 183px;
+  background: url(../../img/cardBack.png) 50% no-repeat;
+  background-size: cover;
+}

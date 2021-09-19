@@ -1,0 +1,26 @@
+.back {
+  left: -135px;
+  z-index: 1;
+  box-shadow: .01rem .01rem var(--bs-dark);
+}
+
+
+.back3 {
+  box-shadow: .03rem .01rem var(--bs-dark);
+}
+
+.back10 {
+  box-shadow: .1rem .1rem var(--bs-dark);
+}
+
+.back15 {
+  box-shadow: .15rem .1rem var(--bs-dark);
+}
+
+.back20 {
+  box-shadow: .2rem .2rem var(--bs-dark);
+}
+
+.back24 {
+  box-shadow: .24rem .2rem var(--bs-dark);
+}

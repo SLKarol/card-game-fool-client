@@ -8,13 +8,15 @@ import ButtonPlayerCard from "./ButtonPlayerCard";
 
 const PlayerCards: FC = () => {
   const {
-    game: { userCards },
+    game: {
+      userCards: { idsCards },
+    },
   } = useGameStore();
 
   return (
     <CardsInHands>
-      {userCards.map((c) => (
-        <ButtonPlayerCard key={c.idCard} id={c.idCard} />
+      {idsCards.map((i) => (
+        <ButtonPlayerCard key={i} id={i} />
       ))}
     </CardsInHands>
   );

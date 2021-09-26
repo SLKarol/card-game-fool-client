@@ -1,4 +1,5 @@
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable, action } from "mobx";
+import { parseJSON } from "date-fns";
 
 import { Game } from "./game";
 
@@ -10,7 +11,7 @@ interface Log {
 }
 
 /**
- * Хранилище состтояния игровой таблицы
+ * Хранилище состояния игровой таблицы
  */
 export class GameLogsStore {
   logs: Map<string, Log>;
@@ -20,6 +21,8 @@ export class GameLogsStore {
       this,
       {
         logs: observable,
+        addMessage: action.bound,
+        parseMessage: action.bound,
       },
       { autoBind: true }
     );
@@ -28,5 +31,20 @@ export class GameLogsStore {
 
   addMessage(type: TypeMessage, message: string) {
     this.logs.set(new Date().toISOString(), { typeMessage: type, message });
+  }
+
+  parseMessage({
+    message,
+    sender,
+    dateTime,
+  }: {
+    message: string;
+    sender: string;
+    dateTime: string;
+  }) {
+    this.logs.set(parseJSON(dateTime).toISOString(), {
+      typeMessage: sender as TypeMessage,
+      message,
+    });
   }
 }

@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { observer } from "mobx-react";
+import { flowResult } from "mobx";
 
 import CardFront from "components/Card/CardFront";
 import { useGameStore } from "stores/game";
@@ -13,6 +14,14 @@ const ButtonPlayerCard: FC<Props> = ({ id }) => {
   const {
     game: { onClickCard, gameBusy },
   } = useGameStore();
+  const onClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    await flowResult(onClickCard(e));
+  };
+
+  // const { game } = useGameStore();
+  // const onClick = async (e: any) => {
+  //   await flowResult(game.onClickCard(e));
+  // };
 
   return (
     <button
@@ -20,7 +29,7 @@ const ButtonPlayerCard: FC<Props> = ({ id }) => {
       key={id}
       className={styles.card}
       data-card-id={id}
-      onClick={onClickCard}
+      onClick={onClick}
       disabled={gameBusy}
     >
       <CardFront id={id} />

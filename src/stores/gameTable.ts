@@ -1,21 +1,32 @@
-import { makeObservable, observable, flow } from "mobx";
+import { makeObservable, observable, flow, action, computed } from "mobx";
 
 import { Game } from "./game";
-import { GameCard } from "types/gameCard";
 import axios from "lib/axios";
 import { AxiosResponse } from "axios";
 
-interface TableCard {
-  id: string;
-  attack: GameCard;
-  defence?: GameCard;
+interface CardInTable {
+  /**
+   * ID атакующей карты
+   */
+  attack: number;
+  /**
+   * ID защищающейся карты
+   */
+  defence?: number;
+}
+
+interface TableInfoApi {
+  /**
+   * Номер шага
+   */
+  [I: string]: CardInTable;
 }
 
 /**
- * Хранилище состтояния игровой таблицы
+ * Хранилище состояния игровой таблицы
  */
 export class GameTableStore {
-  table: TableCard[] = [];
+  table: Map<number, CardInTable> = new Map();
 
   /**
    * Стол опрашивает api?
@@ -28,6 +39,9 @@ export class GameTableStore {
       {
         table: observable,
         getContent: flow,
+        writeTableInfo: action,
+        busy: observable,
+        arrayCards: computed,
       },
       { autoBind: true }
     );
@@ -38,9 +52,22 @@ export class GameTableStore {
     const response = yield axios.get(`/table?id=${this.gameStore.gameId}`, {
       headers: this.gameStore.getHeaderAuthToken(),
     });
-    console.log("response :>>", response);
-    console.log("response.data :>> ", (response as any).data);
-    this.table = (response as AxiosResponse<any>).data.table;
+    this.writeTableInfo((response as AxiosResponse<TableInfoApi>).data);
     this.busy = false;
+  }
+
+  writeTableInfo = (data: TableInfoApi) => {
+    this.table.clear();
+    Object.keys(data).forEach((key) => {
+      this.table.set(+key, data[key]);
+    });
+  };
+
+  get arrayCards() {
+    const content: CardInTable[] = [];
+    this.table.forEach((value) => {
+      content.push(value);
+    });
+    return content;
   }
 }

@@ -6,3 +6,16 @@ export const getHeaderAuthToken = () => {
   const token = localStorage.getItem("gamerToken");
   return { Authorization: `Bearer ${token}` };
 };
+
+/**
+ * Парсинг ответа axios об ошибке
+ */
+export const getAxiosErrorMessage = (error: any) => {
+  if (error.response) {
+    return error.response.data.message as string;
+  } else if (error.request) {
+    return JSON.stringify(error.request);
+  } else {
+    return error.message as string;
+  }
+};

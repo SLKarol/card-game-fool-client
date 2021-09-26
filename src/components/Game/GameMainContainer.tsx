@@ -16,7 +16,14 @@ import GameChat from "components/GameChat";
 import styles from "./GameMainContainer.module.css";
 
 const GameMainContainer: FC = () => {
-  const { game } = useGameStore();
+  const {
+    game: {
+      fetchGameSetting,
+      gameId,
+      logs: { parseMessage },
+      gameTable: { writeTableInfo },
+    },
+  } = useGameStore();
   const {
     errorStore: { setAxiosError },
     socketStore: { socket },
@@ -27,7 +34,7 @@ const GameMainContainer: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        await flowResult(game.fetchGameSetting());
+        await flowResult(fetchGameSetting());
       } catch (err) {
         setAxiosError(err);
         history.push("/error");
@@ -35,20 +42,25 @@ const GameMainContainer: FC = () => {
     })();
   }, []);
 
+  // Отправить сообщение в чат, что игрок вошёл в игру
   useEffect(() => {
-    socket.emit("join_chat", { gameId: game.gameId });
+    socket.emit("join_game", { gameId });
+    // И отправить сообщение, что вышел из игры
+    return () => {
+      socket.emit("leave_game", { gameId });
+    };
   }, []);
 
   useEffect(() => {
-    let testFunstion: any;
     if (socket) {
-      testFunstion = (e: any) => {
-        console.log("testFunstion :>> ", e);
-      };
-      socket.on("chat", testFunstion);
+      socket.on("chat", parseMessage);
+      socket.on("table", writeTableInfo);
     }
     return () => {
-      socket && socket.off("chat", testFunstion);
+      if (socket) {
+        socket.off("chat", parseMessage);
+        socket.off("table", writeTableInfo);
+      }
     };
   }, []);
 

@@ -1,13 +1,14 @@
-import { makeObservable, observable, action, computed, flow } from "mobx";
+import { makeObservable, observable, computed, flow } from "mobx";
 import { createContext, useContext, MouseEvent } from "react";
 
-import axios from "lib/axios";
+import axios, { getAxiosErrorMessage } from "lib/axios";
 import { GameSettingsInfo, OpponentInfo } from "types/game";
 import { AxiosResponse } from "axios";
 import { GameCard } from "types/gameCard";
 import { GameTableStore } from "./gameTable";
 import { GameLogsStore } from "./gameLogs";
 import { CANT_DO_IT } from "consts/messages";
+import { UserCardsStore } from "./userCards";
 
 export class Game {
   /**
@@ -48,7 +49,7 @@ export class Game {
   /**
    * Карты на руках у пользователя
    */
-  userCards: GameCard[] = [];
+  userCards: UserCardsStore;
 
   gameTable: GameTableStore;
   logs: GameLogsStore;
@@ -66,8 +67,9 @@ export class Game {
         whoseTurn: observable,
         userCards: observable,
         fetchGameSetting: flow,
-        onClickCard: action,
+        onClickCard: flow,
         gameBusy: computed,
+        userTurn: flow,
       },
       { autoBind: true }
     );
@@ -75,6 +77,9 @@ export class Game {
     this.gameId = gameId;
     this.gameTable = new GameTableStore(this);
     this.logs = new GameLogsStore(this);
+    this.userCards = new UserCardsStore(this);
+    this.onClickCard = this.onClickCard.bind(this);
+    this.fetchGameSetting = this.fetchGameSetting.bind(this);
   }
 
   *fetchGameSetting(): Generator {
@@ -82,7 +87,6 @@ export class Game {
     const response = yield axios.get(`/game/setting?id=${this.gameId}`, {
       headers: this.getHeaderAuthToken(),
     });
-    this.busy = false;
     const {
       game: {
         trumpCard: idCard,
@@ -95,12 +99,12 @@ export class Game {
       opponent,
       userCards,
     } = (response as AxiosResponse<GameSettingsInfo>).data;
-    console.log("response.data.game :>> ", (response as any).data.game);
     this.trumpCard = { idCard, cardValue, idSuit, nameSuit };
     this.countCards = countCards;
     this.opponent = opponent;
-    this.userCards = userCards;
+    this.userCards.setCards(userCards);
     this.whoseTurn = whoseTurn;
+    this.busy = false;
   }
 
   getHeaderAuthToken() {
@@ -120,7 +124,7 @@ export class Game {
   /**
    * Обработка нажатия на карту игрока
    */
-  onClickCard = (e: MouseEvent<HTMLButtonElement>) => {
+  *onClickCard(e: MouseEvent<HTMLButtonElement>): Generator {
     const cardId = e.currentTarget.getAttribute("data-card-id");
     if (cardId === null) {
       this.logs.addMessage("system", "Не возможно обработать это действие");
@@ -130,7 +134,10 @@ export class Game {
     if (!canDoThisTurn) {
       return this.logs.addMessage("system", CANT_DO_IT);
     }
-  };
+    // Ходит пользователь
+    // Отправить карту на доску
+    yield this.userTurn(+cardId);
+  }
 
   /**
    * Может ли пользователь сделать этот ход?
@@ -151,7 +158,7 @@ export class Game {
    * Проверка на то, что юзер может так отбиться
    */
   private checkTurnDefence = (idCard: number) => {
-    if (this.gameTable.table.length === 0) {
+    if (this.gameTable.table.size === 0) {
       return false;
     }
   };
@@ -160,13 +167,35 @@ export class Game {
    * Проверка на то, что пользователь может так сходить
    */
   private checkTurnAttack = (idCard: number) => {
-    if (this.gameTable.table.length === 0) {
+    if (this.gameTable.table.size === 0) {
       return true;
     }
   };
 
   get gameBusy() {
     return this.busy || this.gameTable.busy;
+  }
+
+  /**
+   * Пользователь ходит картой
+   */
+  *userTurn(cardId: number): Generator {
+    this.busy = true;
+    try {
+      yield axios.post(
+        "game/turn",
+        { turn: { gameId: this.gameId, cardId } },
+        {
+          headers: this.getHeaderAuthToken(),
+        }
+      );
+      // Убрать карту из рук
+      this.userCards.delete(+cardId);
+    } catch (error) {
+      const errorMessage = getAxiosErrorMessage(error);
+      this.logs.addMessage("system", `Ошибка: ${errorMessage}`);
+    }
+    this.busy = false;
   }
 }
 

@@ -1,3 +1,4 @@
+import { getAxiosErrorMessage } from "lib/axios";
 import { makeAutoObservable } from "mobx";
 
 import type { RootStore } from "./root";
@@ -50,22 +51,10 @@ export class ErrorStore {
   };
 
   setAxiosError = (error: any) => {
-    if (error.response) {
-      this.setError({
-        message: error.response.data.message,
-        header: ERROR_RESPONSE,
-      });
-    } else if (error.request) {
-      this.setError({
-        message: JSON.stringify(error.request),
-        header: ERROR_RESPONSE,
-      });
-    } else {
-      this.setError({
-        message: error.message,
-        header: ERROR_RESPONSE,
-      });
-    }
+    const message = getAxiosErrorMessage(error);
+    this.setError({
+      message,
+      header: ERROR_RESPONSE,
+    });
   };
 }
-

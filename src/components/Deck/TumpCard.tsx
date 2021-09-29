@@ -9,10 +9,8 @@ import styles from "./TrumpCard.module.css";
 
 const TumpCard: FC = () => {
   const {
-    game: {
-      trumpCard: { idCard },
-      countCards,
-    },
+    trumpCard: { idCard },
+    countCards,
   } = useGameStore();
   return (
     <CardFront

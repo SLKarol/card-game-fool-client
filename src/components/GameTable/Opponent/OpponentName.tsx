@@ -6,9 +6,7 @@ import PlayerName from "../Common/PlayerName";
 
 const OpponentName: FC = () => {
   const {
-    game: {
-      opponent: { name },
-    },
+    opponent: { name },
   } = useGameStore();
   return <PlayerName name={name} opponent />;
 };

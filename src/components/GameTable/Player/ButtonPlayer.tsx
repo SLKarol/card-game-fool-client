@@ -6,14 +6,15 @@ import { useGameStore } from "stores/game";
 import styles from "./ButtonPlayer.module.css";
 
 const ButtonPlayer: FC = () => {
-  const {
-    game: { opponentWhoseTurn },
-  } = useGameStore();
+  const { opponentWhoseTurn, disabledButton } = useGameStore();
   const myTurn = !!opponentWhoseTurn();
 
   return (
     <div className={styles.div}>
-      <Button variant={!!myTurn ? "danger" : "secondary"} disabled>
+      <Button
+        variant={!!myTurn ? "danger" : "primary"}
+        disabled={disabledButton}
+      >
         {!!myTurn ? "Беру" : "Ход закончен"}
       </Button>
     </div>

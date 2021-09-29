@@ -7,9 +7,7 @@ import { useGameStore } from "stores/game";
 import styles from "./Count.module.css";
 
 const CountCards: FC = () => {
-  const {
-    game: { countCards },
-  } = useGameStore();
+  const { countCards } = useGameStore();
   return (
     <h5 className={clsx(styles.count, countCards <= 1 && styles.cards1)}>
       <Badge pill bg="info">

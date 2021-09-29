@@ -17,12 +17,10 @@ import styles from "./GameMainContainer.module.css";
 
 const GameMainContainer: FC = () => {
   const {
-    game: {
-      fetchGameSetting,
-      gameId,
-      logs: { parseMessage },
-      gameTable: { writeTableInfo },
-    },
+    fetchGameSetting,
+    gameId,
+    logs: { parseMessage },
+    gameTable: { writeTableInfo },
   } = useGameStore();
   const {
     errorStore: { setAxiosError },

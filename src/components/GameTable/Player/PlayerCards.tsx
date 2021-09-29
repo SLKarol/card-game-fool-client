@@ -8,9 +8,7 @@ import ButtonPlayerCard from "./ButtonPlayerCard";
 
 const PlayerCards: FC = () => {
   const {
-    game: {
-      userCards: { idsCards },
-    },
+    userCards: { idsCards },
   } = useGameStore();
 
   return (

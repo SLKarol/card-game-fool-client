@@ -8,9 +8,7 @@ import CardBack from "components/Card/CardBack";
 import styles from "./DeckOfCards.module.css";
 
 const DeckOfCards: FC = () => {
-  const {
-    game: { countCards },
-  } = useGameStore();
+  const { countCards } = useGameStore();
 
   if (countCards < 1) return null;
   let className = "";

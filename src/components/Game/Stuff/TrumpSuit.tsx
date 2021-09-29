@@ -11,9 +11,7 @@ import { ReactComponent as Suit4 } from "img/suit4.svg";
 
 const TrumpSuit: FC = () => {
   const {
-    game: {
-      trumpCard: { idSuit },
-    },
+    trumpCard: { idSuit },
   } = useGameStore();
   return (
     <div className="text-center">

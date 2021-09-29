@@ -11,9 +11,7 @@ interface Props {
 }
 
 const ButtonPlayerCard: FC<Props> = ({ id }) => {
-  const {
-    game: { onClickCard, gameBusy },
-  } = useGameStore();
+  const { onClickCard, gameBusy } = useGameStore();
   const onClick = async (e: MouseEvent<HTMLButtonElement>) => {
     await flowResult(onClickCard(e));
   };

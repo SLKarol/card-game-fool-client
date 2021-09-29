@@ -7,9 +7,7 @@ import CardsInTable from "./CardsInTable";
 
 const GameTableLayout: FC = () => {
   const {
-    game: {
-      gameTable: { arrayCards },
-    },
+    gameTable: { arrayCards },
   } = useGameStore();
 
   return (

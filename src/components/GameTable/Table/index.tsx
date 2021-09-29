@@ -8,9 +8,7 @@ import GameTableLayout from "./GameTableLayout";
 
 const TableContainer: FC = () => {
   const {
-    game: {
-      gameTable: { busy },
-    },
+    gameTable: { busy },
   } = useGameStore();
 
   return (

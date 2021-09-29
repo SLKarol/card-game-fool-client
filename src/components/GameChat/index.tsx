@@ -20,9 +20,7 @@ const GameChat: FC = () => {
     }
   }, []);
   const {
-    game: {
-      logs: { logs },
-    },
+    logs: { logs },
   } = useGameStore();
 
   return (

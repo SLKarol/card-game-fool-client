@@ -8,9 +8,7 @@ import CardsInHands from "../Common/CardsInHands";
 
 const OpponentCards: FC = () => {
   const {
-    game: {
-      opponent: { countCards },
-    },
+    opponent: { countCards },
   } = useGameStore();
 
   return (

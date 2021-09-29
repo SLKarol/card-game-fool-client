@@ -90,7 +90,8 @@ export class GameTableStore {
   }
 
   /**
-   * Атакующая карта, которая не отбита
+   * Атакующая карта, которая не отбита.
+   * Если такой нет, то -1
    */
   get attackCardId() {
     // Array.from

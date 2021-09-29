@@ -9,9 +9,7 @@ import styles from "./index.module.css";
 import TableContainer from "./Table";
 
 const GameTable: FC = () => {
-  const {
-    game: { gameTable },
-  } = useGameStore();
+  const { gameTable } = useGameStore();
 
   useEffect(() => {
     (async () => {

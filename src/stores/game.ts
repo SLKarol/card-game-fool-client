@@ -72,6 +72,7 @@ export class Game {
         onClickCard: flow,
         gameBusy: computed,
         userTurn: flow,
+        disabledButton: computed,
       },
       { autoBind: true }
     );
@@ -227,12 +228,23 @@ export class Game {
     }
     this.busy = false;
   }
+
+  /**
+   * Недоступна кнопка "Ход окончен", она же "Беру"
+   */
+  get disabledButton() {
+    const myTurn = !this.opponentWhoseTurn();
+    if (myTurn) {
+      // Если я хожу, то кнопка тогда недоступна, когда есть неотвеченные карты
+      return this.gameTable.attackCardId > -1;
+    }
+    // Отбивающийся всегда может взять карты, если они есть
+    return this.gameTable.table.size === 0;
+  }
 }
 
-export const GameContext = createContext<{ game: Game }>({} as { game: Game });
+export const GameContext = createContext<Game>({} as Game);
 
-export const useGameStore = (): { game: Game } => {
+export const useGameStore = (): Game => {
   return useContext(GameContext);
 };
-
-// Кнопку "Беру" оживить

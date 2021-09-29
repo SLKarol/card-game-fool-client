@@ -7,9 +7,7 @@ import { useRootStore } from "stores/root";
 import styles from "./WhoseTurn.module.css";
 
 const WhoseTurn: FC = () => {
-  const {
-    game: { opponentWhoseTurn },
-  } = useGameStore();
+  const { opponentWhoseTurn } = useGameStore();
   const {
     userStore: { name },
   } = useRootStore();

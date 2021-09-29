@@ -8,7 +8,7 @@ const GameComponent: FC = () => {
   const { id: gameId } = useParams<{ id: string }>();
   const gameStore = new Game(gameId);
   return (
-    <GameContext.Provider value={{ game: gameStore }}>
+    <GameContext.Provider value={gameStore}>
       <GameMainContainer />
     </GameContext.Provider>
   );

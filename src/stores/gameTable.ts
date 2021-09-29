@@ -3,6 +3,7 @@ import { makeObservable, observable, flow, action, computed } from "mobx";
 import { Game } from "./game";
 import axios from "lib/axios";
 import { AxiosResponse } from "axios";
+import { calculateValue } from "lib/cards";
 
 interface CardInTable {
   /**
@@ -42,6 +43,8 @@ export class GameTableStore {
         writeTableInfo: action,
         busy: observable,
         arrayCards: computed,
+        cardValues: computed,
+        attackCardId: computed,
       },
       { autoBind: true }
     );
@@ -69,5 +72,37 @@ export class GameTableStore {
       content.push(value);
     });
     return content;
+  }
+
+  /**
+   * Значения карт на доске
+   */
+  get cardValues() {
+    const re = new Set<number>();
+    this.table.forEach((cards) => {
+      const { attack, defence } = cards;
+      re.add(calculateValue(attack));
+      if (defence) {
+        re.add(calculateValue(defence));
+      }
+    });
+    return re;
+  }
+
+  /**
+   * Атакующая карта, которая не отбита
+   */
+  get attackCardId() {
+    // Array.from
+    // const i = this.table.entries();
+    // i.next
+    let re: number = -1;
+    for (let [key, value] of this.table) {
+      if (!value.defence) {
+        re = value.attack;
+        break;
+      }
+    }
+    return re;
   }
 }

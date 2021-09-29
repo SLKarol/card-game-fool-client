@@ -1,10 +1,12 @@
 import { makeObservable, observable, computed, flow } from "mobx";
 import { createContext, useContext, MouseEvent } from "react";
 
-import axios, { getAxiosErrorMessage } from "lib/axios";
 import { GameSettingsInfo, OpponentInfo } from "types/game";
-import { AxiosResponse } from "axios";
 import { GameCard } from "types/gameCard";
+
+import axios, { getAxiosErrorMessage } from "lib/axios";
+import { calculateSuit, calculateValue } from "lib/cards";
+import { AxiosResponse } from "axios";
 import { GameTableStore } from "./gameTable";
 import { GameLogsStore } from "./gameLogs";
 import { CANT_DO_IT } from "consts/messages";
@@ -161,15 +163,43 @@ export class Game {
     if (this.gameTable.table.size === 0) {
       return false;
     }
+    // Масть карты игрока
+    const suitCard = calculateSuit(idCard);
+    // Значение карты игрока
+    const valueCard = calculateValue(idCard);
+    // Получить неотбитую карту
+    const attackCardId = this.gameTable.attackCardId;
+    // Масть неотбитой карты
+    const suitAttack = calculateSuit(attackCardId);
+    // Значение неотбитой карты
+    const valueAttack = calculateValue(attackCardId);
+    // Если масть одинаковая и значение отбиваемой карты больше, то можно отбивать
+    if (suitCard === suitAttack && valueCard > valueAttack) {
+      return true;
+    }
+    // Если отбиваюсь козырем, а нападет не козырь, то можно отбивать
+    if (
+      suitCard === this.trumpCard.idSuit &&
+      suitAttack !== this.trumpCard.idSuit
+    ) {
+      return true;
+    }
+
+    // Иначе нельзя отбиться
+    return false;
   };
 
   /**
    * Проверка на то, что пользователь может так сходить
    */
   private checkTurnAttack = (idCard: number) => {
+    // Если нет карт на столе, значит он может ходить
     if (this.gameTable.table.size === 0) {
       return true;
     }
+    const cardValue = calculateValue(idCard);
+    // Можно ходить только тем значением, которое есть на доске
+    return Array.from(this.gameTable.cardValues).indexOf(cardValue) > -1;
   };
 
   get gameBusy() {
@@ -204,3 +234,5 @@ export const GameContext = createContext<{ game: Game }>({} as { game: Game });
 export const useGameStore = (): { game: Game } => {
   return useContext(GameContext);
 };
+
+// Кнопку "Беру" оживить

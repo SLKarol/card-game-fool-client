@@ -2,11 +2,13 @@ import type { ChangeEvent, FC, FormEvent } from "react";
 import { useReducer } from "react";
 import { useHistory } from "react-router-dom";
 
+import { UserResponse } from "../../types/user";
 import type { ApiError } from "../../lib/parseError";
 import axios from "../../lib/axios";
 import { parseApiError } from "../../lib/parseError";
+
 import RegisterDumb from "./RegisterDumb";
-import { UserResponse } from "../../types/user";
+import { AxiosResponse } from "axios";
 
 interface State {
   username: string;
@@ -61,13 +63,16 @@ const Login: FC = () => {
     e.preventDefault();
     dispatch({ type: "submit" });
     axios
-      .post("users", { user: { email, password, username } })
+      .post<{ user: Partial<State> }, AxiosResponse<UserResponse>>("users", {
+        user: { email, password, username },
+      })
       .then((response) => {
+        // response.data.user
         const {
           data: {
             user: { token },
           },
-        }: { data: UserResponse } = response;
+        } = response;
         dispatch({ type: "success" });
         localStorage.setItem("gamerToken", token);
         history.push("/");

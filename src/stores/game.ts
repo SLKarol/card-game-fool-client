@@ -1,7 +1,7 @@
-import { makeObservable, observable, computed, flow } from "mobx";
+import { makeObservable, observable, computed, flow, action } from "mobx";
 import { createContext, useContext, MouseEvent } from "react";
 
-import { GameSettingsInfo, OpponentInfo } from "types/game";
+import { GameOver, GameSettingsInfo, OpponentInfo } from "types/game";
 import { GameCard } from "types/gameCard";
 
 import axios, { getAxiosErrorMessage } from "lib/axios";
@@ -73,6 +73,8 @@ export class Game {
         gameBusy: computed,
         userTurn: flow,
         disabledButton: computed,
+        finishTurn: flow,
+        nextStateGame: flow,
       },
       { autoBind: true }
     );
@@ -83,6 +85,8 @@ export class Game {
     this.userCards = new UserCardsStore(this);
     this.onClickCard = this.onClickCard.bind(this);
     this.fetchGameSetting = this.fetchGameSetting.bind(this);
+    this.finishTurn = this.finishTurn.bind(this);
+    this.nextStateGame = this.nextStateGame.bind(this);
   }
 
   *fetchGameSetting(): Generator {
@@ -236,10 +240,50 @@ export class Game {
     const myTurn = !this.opponentWhoseTurn();
     if (myTurn) {
       // Если я хожу, то кнопка тогда недоступна, когда есть неотвеченные карты
+      if (this.gameTable.table.size === 0) return true;
       return this.gameTable.attackCardId > -1;
     }
     // Отбивающийся всегда может взять карты, если они есть
     return this.gameTable.table.size === 0;
+  }
+
+  /**
+   * Игрок заканчивает ход (Это может быть и взятие карт и завершение хода)
+   */
+  *finishTurn(): Generator {
+    this.busy = true;
+    try {
+      // todo Предусмотреть, что вернётся состояние игры- финиш
+      const response = yield axios.post<
+        { turn: { gameId: string } },
+        AxiosResponse<GameOver>
+      >(
+        "game/finishTurn",
+        { turn: { gameId: this.gameId } },
+        {
+          headers: this.getHeaderAuthToken(),
+        }
+      );
+    } catch (error) {
+      const errorMessage = getAxiosErrorMessage(error);
+      this.logs.addMessage("system", `Ошибка: ${errorMessage}`);
+    }
+    this.busy = false;
+  }
+
+  *nextStateGame(data: { nextStep: boolean }) {
+    const { nextStep } = data;
+    // Если кто-то сейчас ходит, значит игра продолжается
+    // И нужно получить новую инву о игре
+    if (nextStep) {
+      yield this.fetchGameSetting();
+      const nowTurn = this.opponentWhoseTurn();
+      this.gameTable.clear();
+      return this.logs.addMessage(
+        "system",
+        !nowTurn ? "Мой ход" : `Сейчас ходит: ${nowTurn}`
+      );
+    }
   }
 }
 

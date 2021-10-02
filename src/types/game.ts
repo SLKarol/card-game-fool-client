@@ -85,3 +85,7 @@ export interface GameSettingsInfo {
    */
   opponent: OpponentInfo;
 }
+
+export interface GameOver {
+  game: { id: string; nextStep: boolean };
+}

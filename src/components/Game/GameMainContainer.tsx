@@ -19,6 +19,7 @@ const GameMainContainer: FC = () => {
   const {
     fetchGameSetting,
     gameId,
+    nextStateGame,
     logs: { parseMessage },
     gameTable: { writeTableInfo },
   } = useGameStore();
@@ -53,11 +54,13 @@ const GameMainContainer: FC = () => {
     if (socket) {
       socket.on("chat", parseMessage);
       socket.on("table", writeTableInfo);
+      socket.on("game", nextStateGame);
     }
     return () => {
       if (socket) {
         socket.off("chat", parseMessage);
         socket.off("table", writeTableInfo);
+        socket.off("game", nextStateGame);
       }
     };
   }, []);

@@ -45,7 +45,10 @@ export class UserStore {
 
   *userLogin(email: string, password: string): Generator {
     try {
-      const response = yield axios.post<UserResponse>("users/login", {
+      const response = yield axios.post<
+        { user: { email: string; password: string } },
+        UserResponse
+      >("users/login", {
         user: { email, password },
       });
       const { username, token } = (response as AxiosResponse<UserResponse>).data

@@ -45,6 +45,7 @@ export class GameTableStore {
         arrayCards: computed,
         cardValues: computed,
         attackCardId: computed,
+        clear: action,
       },
       { autoBind: true }
     );
@@ -105,5 +106,9 @@ export class GameTableStore {
       }
     }
     return re;
+  }
+
+  clear() {
+    this.table = new Map();
   }
 }

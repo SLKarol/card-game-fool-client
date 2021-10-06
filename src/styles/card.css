@@ -202,4 +202,5 @@
 
 .gameCard__36 {
   background: url(../img/cards/36.png) 50% no-repeat;
+  background-size: cover;
 }

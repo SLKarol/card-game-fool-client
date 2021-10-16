@@ -53,8 +53,17 @@ export class Game {
    */
   userCards: UserCardsStore;
 
+  /**
+   * Игра окончена?
+   */
+  gameOpen: boolean = true;
+
   gameTable: GameTableStore;
   logs: GameLogsStore;
+  /**
+   * Победители в игре
+   */
+  scores: string[] = [];
 
   constructor(gameId: string) {
     makeObservable(
@@ -75,6 +84,9 @@ export class Game {
         disabledButton: computed,
         finishTurn: flow,
         nextStateGame: flow,
+        gameOpen: observable,
+        scores: observable,
+        fetchGameScore: flow,
       },
       { autoBind: true }
     );
@@ -105,12 +117,16 @@ export class Game {
       },
       opponent,
       userCards,
+      gameOpen,
+      victory,
     } = (response as AxiosResponse<GameSettingsInfo>).data;
     this.trumpCard = { idCard, cardValue, idSuit, nameSuit };
     this.countCards = countCards;
     this.opponent = opponent;
     this.userCards.setCards(userCards);
     this.whoseTurn = whoseTurn;
+    this.gameOpen = gameOpen;
+    this.scores = victory;
     this.busy = false;
   }
 
@@ -253,11 +269,7 @@ export class Game {
   *finishTurn(): Generator {
     this.busy = true;
     try {
-      // todo Предусмотреть, что вернётся состояние игры- финиш
-      const response = yield axios.post<
-        { turn: { gameId: string } },
-        AxiosResponse<GameOver>
-      >(
+      yield axios.post<{ turn: { gameId: string } }, AxiosResponse<GameOver>>(
         "game/finishTurn",
         { turn: { gameId: this.gameId } },
         {
@@ -271,12 +283,12 @@ export class Game {
     this.busy = false;
   }
 
-  *nextStateGame(data: { nextStep: boolean }) {
-    const { nextStep } = data;
+  *nextStateGame(data: { gameReady: boolean }) {
+    const { gameReady } = data;
     // Если кто-то сейчас ходит, значит игра продолжается
-    // И нужно получить новую инву о игре
-    if (nextStep) {
-      yield this.fetchGameSetting();
+    // И нужно получить новую инфу о игре
+    yield this.fetchGameSetting();
+    if (gameReady) {
       const nowTurn = this.opponentWhoseTurn();
       this.gameTable.clear();
       return this.logs.addMessage(
@@ -284,6 +296,20 @@ export class Game {
         !nowTurn ? "Мой ход" : `Сейчас ходит: ${nowTurn}`
       );
     }
+    this.gameOpen = false;
+    yield this.fetchGameScore();
+  }
+
+  *fetchGameScore(): Generator {
+    this.busy = true;
+    try {
+      const response = yield axios.get(`report/${this.gameId}`);
+      this.scores = (response as AxiosResponse<string[]>).data;
+    } catch (error) {
+      const errorMessage = getAxiosErrorMessage(error);
+      this.logs.addMessage("system", `Ошибка: ${errorMessage}`);
+    }
+    this.busy = false;
   }
 }
 

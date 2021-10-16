@@ -16,15 +16,14 @@ export class SocketStore {
     this.socket = this.getSocket();
   };
 
-/**
- * Функция, возвращающая сокет.
- * Если юзер не авторизован, значит будет без чата
- */
-private getSocket = () => {
-  const token = localStorage.getItem("gamerToken") || "";
-  return io(process.env.REACT_APP_SOCKET_URL || "", {
-    extraHeaders: { Authorization: `Bearer ${token}` },
-  });
-};
-
+  /**
+   * Функция, возвращающая сокет.
+   * Если юзер не авторизован, значит будет без чата
+   */
+  private getSocket = () => {
+    const token = localStorage.getItem("gamerToken") || "";
+    return io(process.env.REACT_APP_SOCKET_URL || "", {
+      extraHeaders: { Authorization: `Bearer ${token}` },
+    });
+  };
 }

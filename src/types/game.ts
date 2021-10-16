@@ -84,8 +84,18 @@ export interface GameSettingsInfo {
    * Инфа об оппоненте
    */
   opponent: OpponentInfo;
+
+  /**
+   * Игра окрыта?
+   */
+  gameOpen: boolean;
+
+  /**
+   * Кто в этой игре победил?
+   */
+  victory: string[];
 }
 
 export interface GameOver {
-  game: { id: string; nextStep: boolean };
+  game: { id: string; gameReady: boolean };
 }

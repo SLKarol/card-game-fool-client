@@ -1,4 +1,4 @@
-import { makeObservable, observable, computed, flow, action } from "mobx";
+import { makeObservable, observable, computed, flow } from "mobx";
 import { createContext, useContext, MouseEvent } from "react";
 
 import { GameOver, GameSettingsInfo, OpponentInfo } from "types/game";

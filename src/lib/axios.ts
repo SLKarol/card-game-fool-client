@@ -12,7 +12,14 @@ export const getHeaderAuthToken = () => {
  */
 export const getAxiosErrorMessage = (error: any) => {
   if (error.response) {
-    return error.response.data.message as string;
+    const { data } = error.response;
+    if (Array.isArray(data)) {
+      return data.join(";");
+    }
+    if (typeof data === "object" && "message" in data) {
+      return data.message;
+    }
+    return JSON.stringify(data);
   } else if (error.request) {
     return JSON.stringify(error.request);
   } else {

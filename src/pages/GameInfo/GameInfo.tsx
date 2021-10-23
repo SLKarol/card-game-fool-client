@@ -88,8 +88,7 @@ const GameInfoObserver = observer(
                     {available ? "Продолжить" : "Игра окончена"}
                   </PricingItemHeader>
                   <p>
-                    Здесь Вы можете продолжить матч или скопировать ссылку на
-                    игру.
+                    Вы можете продолжить матч или скопировать ссылку на игру.
                   </p>
                   <div className="features">
                     <ItemDescription

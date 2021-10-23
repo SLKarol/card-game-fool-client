@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 
 import axios from "lib/axios";
+import { useLocalStorage } from "lib/useLocalStorage";
 
 interface Props {
   value: string;
@@ -14,9 +15,9 @@ type ResponseOpponents = {
 
 const GetOpponents: FC<Props> = ({ value, onChange }) => {
   const [opponents, setOpponents] = useState<string[]>([]);
+  const [token] = useLocalStorage("gamerToken");
 
   useEffect(() => {
-    const token = localStorage.getItem("gamerToken");
     axios
       .get<ResponseOpponents>("user/opponents", {
         headers: { Authorization: `Bearer ${token}` },

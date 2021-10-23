@@ -7,6 +7,7 @@ import clsx from "clsx";
 
 import { useGameStore } from "stores/game";
 import { useRootStore } from "stores/root";
+import { useSocket } from "lib/useSocket";
 import TrumpSuit from "./Stuff/TrumpSuit";
 import WhoseTurn from "./Stuff/WhoseTurn";
 import Deck from "components/Deck";
@@ -25,9 +26,8 @@ const GameMainContainer: FC = () => {
   } = useGameStore();
   const {
     errorStore: { setAxiosError },
-    socketStore: { socket },
   } = useRootStore();
-
+  const socket = useSocket();
   let history = useHistory();
 
   useEffect(() => {
@@ -43,10 +43,10 @@ const GameMainContainer: FC = () => {
 
   // Отправить сообщение в чат, что игрок вошёл в игру
   useEffect(() => {
-    socket.emit("join_game", { gameId });
+    socket?.emit("join_game", { gameId });
     // И отправить сообщение, что вышел из игры
     return () => {
-      socket.emit("leave_game", { gameId });
+      socket?.emit("leave_game", { gameId });
     };
   }, []);
 

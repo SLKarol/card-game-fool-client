@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useGuardOnToken } from "lib/hook";
 import axios from "lib/axios";
 import { getAxiosErrorMessage } from "lib/axios";
+import { useLocalStorage } from "lib/useLocalStorage";
 import NewGameForm from "./NewGameForm";
 
 const NewGame: FC = () => {
@@ -13,9 +14,9 @@ const NewGame: FC = () => {
   let history = useHistory();
   const [errorMessage, setErrorMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [token] = useLocalStorage("gamerToken");
 
   const onSubmit = async (selectedOpponent: string) => {
-    const token = localStorage.getItem("gamerToken");
     setBusy(true);
     try {
       const response = (await axios({

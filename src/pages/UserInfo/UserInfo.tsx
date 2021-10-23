@@ -7,17 +7,22 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 import { useRootStore } from "stores/root";
-
-import BlockHeading from "../../components/BlockHeading";
+import { useLocalStorage } from "lib/useLocalStorage";
+import { useSocket } from "lib/socket";
+import BlockHeading from "components/BlockHeading";
 
 const UserInfo: FC = () => {
   const {
     userStore: { name, logout },
   } = useRootStore();
   const history = useHistory();
+  const [, setToken] = useLocalStorage("gamerToken");
+  const socket = useSocket();
 
   const onClickLogout = () => {
     logout();
+    socket?.disconnect();
+    setToken("");
     history.push("/login");
   };
   return (

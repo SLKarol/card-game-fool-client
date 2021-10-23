@@ -8,6 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { OpenGameDto } from "types/game";
 import axios from "lib/axios";
 import { useGuardOnToken } from "lib/hook";
+import { useLocalStorage } from "lib/useLocalStorage";
 
 import BlockHeading from "components/BlockHeading";
 import OpenGame from "components/OpenGame/OpenGame";
@@ -15,12 +16,11 @@ import OpenGame from "components/OpenGame/OpenGame";
 import styles from "./styles.module.css";
 
 const OpenGames: FC = () => {
-  // const history = useHistory();
+  const [token] = useLocalStorage("gamerToken");
   const [games, setGames] = useState<OpenGameDto[]>([]);
   useGuardOnToken();
 
   useEffect(() => {
-    const token = localStorage.getItem("gamerToken");
     axios
       .get<{ games: OpenGameDto[] }>("game/open", {
         headers: { Authorization: `Bearer ${token}` },

@@ -6,7 +6,8 @@ import { io, Socket } from "socket.io-client";
 /**
  * Контекст для сокета
  */
-export const SocketContext = createContext<Socket | undefined>(undefined);
+const SocketContext = createContext<Socket | undefined>(undefined);
+export const SocketProvider = SocketContext.Provider;
 
 /**
  * Хук, отдающий сокет
@@ -20,7 +21,6 @@ export const useSocket = () => useContext(SocketContext);
 export const getSocket = () => {
   const token = localStorage.getItem("gamerToken");
   if (token) {
-    console.log('process.env.REACT_APP_SOCKET_URL :>> ', process.env.REACT_APP_SOCKET_URL);
     return io(process.env.REACT_APP_SOCKET_URL || "", {
       extraHeaders: { Authorization: `Bearer ${token}` },
     });

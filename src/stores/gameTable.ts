@@ -99,7 +99,7 @@ export class GameTableStore {
     // const i = this.table.entries();
     // i.next
     let re: number = -1;
-    for (let [key, value] of this.table) {
+    for (let [, value] of this.table) {
       if (!value.defence) {
         re = value.attack;
         break;

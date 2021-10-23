@@ -2,10 +2,11 @@ import type { ChangeEvent, FC, FormEvent } from "react";
 import { useReducer } from "react";
 import { useHistory } from "react-router-dom";
 
-import { UserResponse } from "../../types/user";
-import type { ApiError } from "../../lib/parseError";
+import { UserResponse } from "types/user";
+import type { ApiError } from "lib/parseError";
 import axios from "../../lib/axios";
-import { parseApiError } from "../../lib/parseError";
+import { parseApiError } from "lib/parseError";
+import { useLocalStorage } from "lib/useLocalStorage";
 
 import RegisterDumb from "./RegisterDumb";
 import { AxiosResponse } from "axios";
@@ -54,6 +55,7 @@ const Login: FC = () => {
       errorMessage: "",
     });
   let history = useHistory();
+  const [, setToken] = useLocalStorage("gamerToken");
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, id } = e.currentTarget;
@@ -74,7 +76,7 @@ const Login: FC = () => {
           },
         } = response;
         dispatch({ type: "success" });
-        localStorage.setItem("gamerToken", token);
+        setToken(token);
         history.push("/");
       })
       .catch((error) => {

@@ -43,33 +43,21 @@ export class UserStore {
     }
   });
 
-  *userLogin(email: string, password: string): Generator {
-    try {
-      const response = yield axios.post<
-        { user: { email: string; password: string } },
-        UserResponse
-      >("users/login", {
-        user: { email, password },
-      });
-      const { username, token } = (response as AxiosResponse<UserResponse>).data
-        .user;
-      localStorage.setItem("gamerToken", token);
-      this.name = username;
-      this.rootStore.socketStore.connect();
-    } catch (error) {
-      const { message, response } = error as any;
-      if (response) {
-        const { data }: { data: ApiError } = response;
-        this.fetchError = parseApiError(data);
-        return;
-      }
-      this.fetchError = message;
+  setName = (name: string) => {
+    this.name = name;
+  };
+
+  setFetchError = (error: any) => {
+    const { message, response } = error;
+    if (response) {
+      const { data }: { data: ApiError } = response;
+      this.fetchError = parseApiError(data);
+      return;
     }
-  }
+    this.fetchError = message;
+  };
 
   logout = () => {
-    localStorage.removeItem("gamerToken");
     this.name = "";
-    this.rootStore.socketStore.socket.disconnect();
   };
 }

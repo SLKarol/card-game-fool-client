@@ -10,11 +10,9 @@ import styles from "./DeckOfCards.module.css";
 const DeckOfCards: FC = () => {
   const { countCards } = useGameStore();
 
-  if (countCards < 1) return null;
+  if (countCards < 2) return null;
   let className = "";
-  if (countCards === 1) className = clsx(styles.back);
-  if (countCards > 1 && countCards <= 3)
-    className = clsx(styles.back, styles.back3);
+  if (countCards <= 3) className = clsx(styles.back, styles.back3);
   if (countCards > 3 && countCards <= 10)
     className = clsx(styles.back, styles.back10);
   if (countCards > 10 && countCards <= 15)

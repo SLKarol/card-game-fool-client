@@ -40,7 +40,7 @@ export class GameTableStore {
       {
         table: observable,
         getContent: flow,
-        writeTableInfo: action,
+        writeTableInfo: flow,
         busy: observable,
         arrayCards: computed,
         cardValues: computed,
@@ -50,6 +50,7 @@ export class GameTableStore {
       },
       { autoBind: true }
     );
+    this.writeTableInfo = this.writeTableInfo.bind(this);
   }
 
   *getContent(): Generator {
@@ -57,16 +58,17 @@ export class GameTableStore {
     const response = yield axios.get(`/table?id=${this.gameStore.gameId}`, {
       headers: this.gameStore.getHeaderAuthToken(),
     });
-    this.writeTableInfo((response as AxiosResponse<TableInfoApi>).data);
+    yield this.writeTableInfo((response as AxiosResponse<TableInfoApi>).data);
     this.busy = false;
   }
 
-  writeTableInfo = (data: TableInfoApi) => {
+  *writeTableInfo(data: TableInfoApi) {
     this.table.clear();
     Object.keys(data).forEach((key) => {
       this.table.set(+key, data[key]);
     });
-  };
+    yield this.gameStore.getOpponentCards();
+  }
 
   get arrayCards() {
     const content: CardInTable[] = [];

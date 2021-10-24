@@ -87,6 +87,7 @@ export class Game {
         gameOpen: observable,
         scores: observable,
         fetchGameScore: flow,
+        getOpponentCards: flow,
       },
       { autoBind: true }
     );
@@ -219,9 +220,9 @@ export class Game {
       return true;
     }
     // Хватит ли карт у оппонента чтобы отбить?
-    if (this.gameTable.countFreeCards >= 1 * this.opponent.countCards) {
-      return false;
-    }
+    // if (this.gameTable.countFreeCards >= 1 * this.opponent.countCards) {
+    //   return false;
+    // }
     // this.opponent.countCards
     const cardValue = calculateValue(idCard);
     // Можно ходить только тем значением, которое есть на доске
@@ -315,6 +316,16 @@ export class Game {
       this.logs.addMessage("system", `Ошибка: ${errorMessage}`);
     }
     this.busy = false;
+  }
+
+  /**
+   * Получить количество карт оппонента
+   */
+  *getOpponentCards(): Generator {
+    const response = yield axios.get(`/game/opponent/${this.gameId}`, {
+      headers: this.getHeaderAuthToken(),
+    });
+    this.opponent.countCards = (response as AxiosResponse<number>).data;
   }
 }
 

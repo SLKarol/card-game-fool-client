@@ -46,6 +46,7 @@ export class GameTableStore {
         cardValues: computed,
         attackCardId: computed,
         clear: action,
+        countFreeCards: computed,
       },
       { autoBind: true }
     );
@@ -110,5 +111,18 @@ export class GameTableStore {
 
   clear() {
     this.table = new Map();
+  }
+
+  /**
+   * Количество не отбитых карт
+   */
+  get countFreeCards() {
+    let count = 0;
+    this.table.forEach((cards) => {
+      if (!cards.defence) {
+        count++;
+      }
+    });
+    return count;
   }
 }

@@ -218,6 +218,11 @@ export class Game {
     if (this.gameTable.table.size === 0) {
       return true;
     }
+    // Хватит ли карт у оппонента чтобы отбить?
+    if (this.gameTable.countFreeCards >= 1 * this.opponent.countCards) {
+      return false;
+    }
+    // this.opponent.countCards
     const cardValue = calculateValue(idCard);
     // Можно ходить только тем значением, которое есть на доске
     return Array.from(this.gameTable.cardValues).indexOf(cardValue) > -1;

@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 import { useRootStore } from "stores/root";
 import { useLocalStorage } from "lib/useLocalStorage";
-import { useSocket } from "lib/socket";
+import { useSocket } from "lib/useSocket";
 import BlockHeading from "components/BlockHeading";
 
 const UserInfo: FC = () => {

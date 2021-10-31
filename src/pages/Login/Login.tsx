@@ -2,12 +2,14 @@ import type { ChangeEvent, FC, FormEvent } from "react";
 import { useReducer } from "react";
 import { observer } from "mobx-react";
 import type { AxiosResponse } from "axios";
+import { useHistory } from "react-router-dom";
 
 import type { UserResponse } from "types/user";
+
 import { useRootStore } from "stores/root";
 import axios from "lib/axios";
 import { useLocalStorage } from "lib/useLocalStorage";
-import { useSocket } from "lib/useSocket";
+
 import LoginDumb from "./LoginDumb";
 import UserInfo from "pages/UserInfo/UserInfo";
 
@@ -50,7 +52,8 @@ const Login: FC = () => {
     userStore: { fetchError, name, setName, setFetchError },
   } = useRootStore();
   const [, setToken] = useLocalStorage("gamerToken");
-  const socket = useSocket();
+  let history = useHistory();
+
   // Если у юзера есть имя, значит он залогинился
   if (name) {
     return <UserInfo />;
@@ -72,7 +75,7 @@ const Login: FC = () => {
       const { username, token } = response.data.user;
       setToken(token);
       setName(username);
-      socket?.connect();
+      history.push("/");
     } catch (error) {
       setFetchError(error);
     }

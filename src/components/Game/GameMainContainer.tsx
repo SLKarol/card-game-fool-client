@@ -7,7 +7,8 @@ import clsx from "clsx";
 
 import { useGameStore } from "stores/game";
 import { useRootStore } from "stores/root";
-import { useSocket } from "lib/useSocket";
+
+import { useAuthenticatedSocket } from "lib/useSocket";
 import TrumpSuit from "./Stuff/TrumpSuit";
 import WhoseTurn from "./Stuff/WhoseTurn";
 import Deck from "components/Deck";
@@ -27,8 +28,8 @@ const GameMainContainer: FC = () => {
   const {
     errorStore: { setAxiosError },
   } = useRootStore();
-  const socket = useSocket();
   let history = useHistory();
+  const { socket, connected } = useAuthenticatedSocket();
 
   useEffect(() => {
     (async () => {
@@ -41,30 +42,25 @@ const GameMainContainer: FC = () => {
     })();
   }, []);
 
-  // Отправить сообщение в чат, что игрок вошёл в игру
   useEffect(() => {
-    socket?.emit("join_game", { gameId });
-    // И отправить сообщение, что вышел из игры
-    return () => {
-      socket?.emit("leave_game", { gameId });
-    };
-  }, []);
-
-  useEffect(() => {
-    if (socket) {
+    // Отправить сообщение в чат, что игрок вошёл в игру
+    if (connected) {
+      socket.emit("join_game", { gameId });
+      // Подписаться на сообщения чата
       socket.on("chat", parseMessage);
       socket.on("table", writeTableInfo);
       socket.on("game", nextStateGame);
     }
     return () => {
-      if (socket) {
-        socket.off("chat", parseMessage);
-        socket.off("table", writeTableInfo);
-        socket.off("game", nextStateGame);
-      }
+      // И отправить сообщение, что вышел из игры
+      socket.emit("leave_game", { gameId });
+      socket.off("chat", parseMessage);
+      socket.off("table", writeTableInfo);
+      socket.off("game", nextStateGame);
     };
-  }, []);
+  }, [connected]);
 
+  if (!connected) return <div>Not connected to socket</div>;
   return (
     <section className={clsx(styles.container)}>
       <div className={styles.gameTable}>

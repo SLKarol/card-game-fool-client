@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 import { useRootStore } from "stores/root";
 import { useLocalStorage } from "lib/useLocalStorage";
-import { useSocket } from "lib/useSocket";
+import { useAuthenticatedSocket } from "lib/useSocket";
 import BlockHeading from "components/BlockHeading";
 
 const UserInfo: FC = () => {
@@ -17,11 +17,11 @@ const UserInfo: FC = () => {
   } = useRootStore();
   const history = useHistory();
   const [, setToken] = useLocalStorage("gamerToken");
-  const socket = useSocket();
+  const { socket } = useAuthenticatedSocket();
 
   const onClickLogout = () => {
     logout();
-    socket?.disconnect();
+    socket.disconnect();
     setToken("");
     history.push("/login");
   };

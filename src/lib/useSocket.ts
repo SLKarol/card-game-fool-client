@@ -1,22 +1,11 @@
-import { useEffect, useRef } from "react";
-import { io, Socket } from "socket.io-client";
-import { useLocalStorage } from "./useLocalStorage";
+import { useSocket } from "socket.io-react-hook";
 
-export const useSocket = () => {
-  const [token] = useLocalStorage("gamerToken");
-
-  const socketRef = useRef<null | Socket>(
-    token
-      ? io(process.env.REACT_APP_SOCKET_URL || "", {
-          extraHeaders: { Authorization: `Bearer ${token}` },
-        })
-      : null
-  );
-
-  useEffect(() => {
-    socketRef.current = io(process.env.REACT_APP_SOCKET_URL || "", {
-      extraHeaders: { Authorization: `Bearer ${token}` },
-    });
-  }, [token]);
-  return socketRef.current;
+export const useAuthenticatedSocket = () => {
+  const token = localStorage.getItem("gamerToken");
+  return useSocket(process.env.REACT_APP_SOCKET_URL || "", {
+    auth: {
+      token,
+    },
+    enabled: !!token,
+  });
 };

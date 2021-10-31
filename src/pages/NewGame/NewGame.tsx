@@ -24,7 +24,7 @@ const NewGame: FC = () => {
         url: "/game",
         headers: { Authorization: `Bearer ${token}` },
         data: {
-          game: { opponent: "" },
+          game: { opponent: selectedOpponent },
         },
       })) as AxiosResponse<{ game: { id: string } }>;
       const { id } = response.data.game;

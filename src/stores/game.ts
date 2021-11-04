@@ -122,7 +122,7 @@ export class Game {
       victory,
     } = (response as AxiosResponse<GameSettingsInfo>).data;
     this.trumpCard = { idCard, cardValue, idSuit, nameSuit };
-    this.countCards = countCards;
+    this.countCards = 1 * countCards;
     this.opponent = opponent;
     this.userCards.setCards(userCards);
     this.whoseTurn = whoseTurn;
@@ -324,7 +324,7 @@ export class Game {
     const response = yield axios.get(`/game/opponent/${this.gameId}`, {
       headers: this.getHeaderAuthToken(),
     });
-    this.opponent.countCards = (response as AxiosResponse<number>).data;
+    this.opponent.countCards = 1 * (response as AxiosResponse<number>).data;
   }
 }
 

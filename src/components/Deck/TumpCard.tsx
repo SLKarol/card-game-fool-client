@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { observer } from "mobx-react";
 import clsx from "clsx";
 
@@ -15,7 +15,7 @@ const TumpCard: FC = () => {
   return (
     <CardFront
       id={idCard}
-      className={clsx(styles.card, countCards === 0 && styles.cards0)}
+      className={clsx(styles.card, !countCards && styles.cards0)}
     />
   );
 };

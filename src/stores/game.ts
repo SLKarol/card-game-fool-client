@@ -220,9 +220,9 @@ export class Game {
       return true;
     }
     // Хватит ли карт у оппонента чтобы отбить?
-    // if (this.gameTable.countFreeCards >= 1 * this.opponent.countCards) {
-    //   return false;
-    // }
+    if (this.gameTable.countFreeCards >= 1 * this.opponent.countCards) {
+      return false;
+    }
     const cardValue = calculateValue(idCard);
     // Можно ходить только тем значением, которое есть на доске
     return Array.from(this.gameTable.cardValues).indexOf(cardValue) > -1;

@@ -13,7 +13,7 @@ const OutgoingMessage: FC<Props> = ({ dateTime, message }) => {
   return (
     <div className={styles.outgoingMsg}>
       <div className={styles.sentMsg}>
-        <p>{message}</p>
+        <div>{message}</div>
         <DateTime dateTime={dateTime} />
       </div>
     </div>

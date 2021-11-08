@@ -13,7 +13,7 @@ const ReceiveMessage: FC<Props> = ({ dateTime, message }) => {
   return (
     <div className={styles.receivedMsg}>
       <div className={styles.receivedWithdMsg}>
-        <p className={styles.receivedMsgContent}>{message}</p>
+        <div className={styles.receivedMsgContent}>{message}</div>
         <DateTime dateTime={dateTime} />
       </div>
     </div>

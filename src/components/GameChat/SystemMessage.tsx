@@ -12,8 +12,8 @@ interface Props {
 const SystemMessage: FC<Props> = ({ dateTime, message }) => {
   return (
     <div className={styles.systemMsg}>
-      <p className={styles.systemContent}>{message}</p>
-      <DateTime dateTime={dateTime} system />
+      <div className={styles.systemContent}>{message}</div>
+      <DateTime dateTime={dateTime} />
     </div>
   );
 };

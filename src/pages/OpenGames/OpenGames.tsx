@@ -29,6 +29,7 @@ const OpenGames: FC = () => {
         const { games } = response.data;
         setGames(games);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

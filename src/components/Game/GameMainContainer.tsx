@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { FC } from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";

@@ -6,9 +6,8 @@
 .sentMsg {
   float: right;
   width: 76%;
-  background-color: #d1e7dd;
-  border-color: #badbcc;
-  color: #0f5132;
+  background-color: #0f5132;
+  color: var(--bs-yellow);
   padding-top: 3px;
   padding-left: 10px;
   border-radius: 3px;

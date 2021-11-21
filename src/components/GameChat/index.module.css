@@ -2,8 +2,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.history {
-  overflow-y: auto;
-  max-height: 312px;
-}

@@ -7,6 +7,7 @@ import GameInfo from "pages/GameInfo/GameInfo";
 import AppError from "pages/AppError/AppError";
 import Game from "pages/Game/Game";
 import OpenGames from "pages/OpenGames/OpenGames";
+import Home from "pages/Home/Home";
 
 const Login = lazy(() => import("pages/Login/Login"));
 const Register = lazy(() => import("pages/Register/Register"));
@@ -14,12 +15,13 @@ const NewGame = lazy(() => import("pages/NewGame/NewGame"));
 const NotAccess = lazy(() => import("pages/NotAccess/NotAccess"));
 const UserInfo = lazy(() => import("pages/UserInfo/UserInfo"));
 const Reports = lazy(() => import("pages/Reports"));
+const About = lazy(() => import("pages/About"));
 
 const AppRoute: FC = () => (
   <Suspense fallback={<div className="page">Загрузка...</div>}>
     <Switch>
       <Route exact path="/">
-        <div>Home</div>
+        <Home />
       </Route>
       <Route path="/start">
         <NewGame />
@@ -31,7 +33,7 @@ const AppRoute: FC = () => (
         <Reports />
       </Route>
       <Route path="/about">
-        <div>О программе</div>
+        <About />
       </Route>
       <Route path="/login">
         <Login />

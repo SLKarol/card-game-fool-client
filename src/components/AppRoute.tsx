@@ -13,6 +13,7 @@ const Register = lazy(() => import("pages/Register/Register"));
 const NewGame = lazy(() => import("pages/NewGame/NewGame"));
 const NotAccess = lazy(() => import("pages/NotAccess/NotAccess"));
 const UserInfo = lazy(() => import("pages/UserInfo/UserInfo"));
+const Reports = lazy(() => import("pages/Reports"));
 
 const AppRoute: FC = () => (
   <Suspense fallback={<div className="page">Загрузка...</div>}>
@@ -27,7 +28,7 @@ const AppRoute: FC = () => (
         <Game />
       </Route>
       <Route path="/reports">
-        <div>Статистика</div>
+        <Reports />
       </Route>
       <Route path="/about">
         <div>О программе</div>

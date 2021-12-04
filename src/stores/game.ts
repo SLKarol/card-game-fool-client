@@ -308,7 +308,7 @@ export class Game {
   *fetchGameScore(): Generator {
     this.busy = true;
     try {
-      const response = yield axios.get(`report/${this.gameId}`);
+      const response = yield axios.get(`report/game/${this.gameId}`);
       this.scores = (response as AxiosResponse<string[]>).data;
     } catch (error) {
       const errorMessage = getAxiosErrorMessage(error);

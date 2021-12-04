@@ -29,6 +29,7 @@ const GetOpponents: FC<Props> = ({ value, onChange }) => {
           onChange(users[0]);
         }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleChange = (e: FormEvent<HTMLSelectElement>) =>
     onChange(e.currentTarget.value);

@@ -15,6 +15,7 @@ const GameTable: FC = () => {
     (async () => {
       await flowResult(gameTable.getContent());
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
